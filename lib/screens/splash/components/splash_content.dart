@@ -6,31 +6,46 @@ import '../../../size_config.dart';
 class SplashContent extends StatelessWidget {
   const SplashContent({
     Key? key,
-    this.text,
-    this.image,
+    required this.headingText,
+    required this.image,
+    required this.subText,
+    required this.headingTextColor,
+    required this.btnText,
+    required this.subTextColor,
+    required this.btnColor,
   }) : super(key: key);
-  final String? text, image;
+  final String headingText,
+      subText,
+      image,
+      btnText,
+      headingTextColor,
+      subTextColor,
+      btnColor;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: <Widget>[
-        Spacer(),
+      children: [
+        const Spacer(),
         Text(
-          "TOKOTO",
+          headingText,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(36),
             color: kPrimaryColor,
             fontWeight: FontWeight.bold,
           ),
         ),
+        SizedBox(height: getProportionateScreenHeight(20)),
         Text(
-          text!,
+          subText,
           textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: getProportionateScreenWidth(16),
+          ),
         ),
-        Spacer(flex: 2),
-        Image.asset(
-          image!,
+        const Spacer(flex: 1),
+        Image.network(
+          image,
           height: getProportionateScreenHeight(265),
           width: getProportionateScreenWidth(235),
         ),
