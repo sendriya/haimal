@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haimal/constants.dart';
 import 'package:haimal/screens/sign_in/sign_in_screen.dart';
 import 'package:haimal/size_config.dart';
 
@@ -79,7 +80,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
         actions: [
           TextButton(
             onPressed: _goToLoginPage,
-            child: const Text('Skip'),
+            child: const Text(
+              'Skip',
+              style: TextStyle(color: kPrimaryColor),
+            ),
           ),
         ],
       ),

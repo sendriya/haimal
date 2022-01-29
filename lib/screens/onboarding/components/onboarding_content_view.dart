@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:haimal/constants.dart';
 
 import '../../../components/network_image.dart';
 import '../../../constants/constants.dart';
@@ -58,6 +59,7 @@ class OnboardingContentView extends StatelessWidget {
           child: ElevatedButton(
               onPressed: onNext,
               style: ElevatedButton.styleFrom(
+                primary: kPrimaryColor,
                 shape: const StadiumBorder(),
                 padding: const EdgeInsets.all(16),
               ),
