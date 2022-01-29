@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haimal/routes.dart';
+import 'package:haimal/screens/onboarding/onboarding_page.dart';
 import 'package:haimal/screens/profile/profile_screen.dart';
 import 'package:haimal/screens/splash/splash_screen.dart';
 import 'package:haimal/theme.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: theme(),
       // home: SplashScreen(),
       // We use routeName so that we dont need to remember the name
-      initialRoute: SplashScreen.routeName,
+      initialRoute: OnboardingPage.routeName,
       routes: routes,
     );
   }
