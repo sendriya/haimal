@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 class OnBoarding {
   OnBoarding({
     required this.id,
@@ -21,11 +23,11 @@ class OnBoarding {
   String btnText;
   dynamic image;
   String imageUrl;
-  String backgroundColor;
-  String headingTextColor;
-  String subTextColor;
-  String btnColor;
-  String btnTextColor;
+  int backgroundColor;
+  int headingTextColor;
+  int subTextColor;
+  int btnColor;
+  int btnTextColor;
 
   factory OnBoarding.fromJson(Map<String, dynamic> json) => OnBoarding(
         id: json["id"],

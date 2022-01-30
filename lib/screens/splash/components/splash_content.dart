@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
 import '../../../size_config.dart';
 
 class SplashContent extends StatelessWidget {
@@ -14,13 +13,9 @@ class SplashContent extends StatelessWidget {
     required this.subTextColor,
     required this.btnColor,
   }) : super(key: key);
-  final String headingText,
-      subText,
-      image,
-      btnText,
-      headingTextColor,
-      subTextColor,
-      btnColor;
+  final String headingText, subText, image, btnText;
+
+  final int headingTextColor, subTextColor, btnColor;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +26,8 @@ class SplashContent extends StatelessWidget {
           headingText,
           style: TextStyle(
             fontSize: getProportionateScreenWidth(36),
-            color: kPrimaryColor,
+            color: Color(headingTextColor),
+            // color: kPrimaryColor,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -40,6 +36,7 @@ class SplashContent extends StatelessWidget {
           subText,
           textAlign: TextAlign.center,
           style: TextStyle(
+            color: Color(subTextColor),
             fontSize: getProportionateScreenWidth(16),
           ),
         ),
