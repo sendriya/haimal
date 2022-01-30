@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haimal/constants/app_colors.dart';
 
 import 'components/body.dart';
 
@@ -11,6 +12,7 @@ class CompleteProfileScreen extends StatelessWidget {
         title: Text('Sign Up'),
       ),
       body: Body(),
+      backgroundColor: AppColors.scaffoldBackground,
     );
   }
 }

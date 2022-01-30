@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:haimal/components/custom_surfix_icon.dart';
 import 'package:haimal/components/default_button.dart';
 import 'package:haimal/components/form_error.dart';
+import 'package:haimal/components/icon_with_background.dart';
 import 'package:haimal/screens/otp/otp_screen.dart';
 
 import '../../../constants.dart';
@@ -19,6 +22,14 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   String? lastName;
   String? phoneNumber;
   String? address;
+  String? selectedSalutation;
+  
+  final List<String> items = [
+  'Item1',
+  'Item2',
+  'Item3',
+  'Item4',
+];
 
   void addError({String? error}) {
     if (!errors.contains(error))
@@ -40,13 +51,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       key: _formKey,
       child: Column(
         children: [
-          buildFirstNameFormField(),
+          buildFullNameFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildLastNameFormField(),
+          locationDropDown(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildPhoneNumberFormField(),
+          buildAddress1FormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
-          buildAddressFormField(),
+          buildAddress2FormField(),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -62,7 +73,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     );
   }
 
-  TextFormField buildAddressFormField() {
+  TextFormField buildAddress1FormField() {
     return TextFormField(
       onSaved: (newValue) => address = newValue,
       onChanged: (value) {
@@ -79,60 +90,28 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Address",
-        hintText: "Enter your phone address",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon:
-            CustomSurffixIcon(svgIcon: "assets/icons/Location point.svg"),
+        prefixIcon: IconWithBackground(iconData: IconlyBold.location),
+        labelText: "Address Line1",
+        hintText: "Enter your address",
       ),
+      maxLength: 200
     );
   }
 
-  TextFormField buildPhoneNumberFormField() {
-    return TextFormField(
-      keyboardType: TextInputType.phone,
-      onSaved: (newValue) => phoneNumber = newValue,
-      onChanged: (value) {
-        if (value.isNotEmpty) {
-          removeError(error: kPhoneNumberNullError);
-        }
-        return null;
-      },
-      validator: (value) {
-        if (value!.isEmpty) {
-          addError(error: kPhoneNumberNullError);
-          return "";
-        }
-        return null;
-      },
-      decoration: InputDecoration(
-        labelText: "Phone Number",
-        hintText: "Enter your phone number",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Phone.svg"),
-      ),
-    );
-  }
 
-  TextFormField buildLastNameFormField() {
+  TextFormField buildAddress2FormField() {
     return TextFormField(
       onSaved: (newValue) => lastName = newValue,
       decoration: InputDecoration(
-        labelText: "Last Name",
-        hintText: "Enter your last name",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+        prefixIcon: IconWithBackground(iconData: IconlyBold.location),
+        labelText: "Address Line2",
+        hintText: "Enter your address",
       ),
+      maxLength: 200
     );
   }
 
-  TextFormField buildFirstNameFormField() {
+  TextFormField buildFullNameFormField() {
     return TextFormField(
       onSaved: (newValue) => firstName = newValue,
       onChanged: (value) {
@@ -149,13 +128,47 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "First Name",
-        hintText: "Enter your first name",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/User.svg"),
+        prefixIcon: IconWithBackground(iconData: IconlyBold.profile),
+        labelText: "Full Name",
+        hintText: "Enter your full name",
       ),
+      maxLength: 25,
+      inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp("[a-zA-ZÄäÖöÜü]")) //Only Text as input
+                  ],
     );
   }
+
+    DropdownButtonFormField<String> locationDropDown() {
+    return DropdownButtonFormField<String>(
+            onSaved: (newValue) => selectedSalutation = newValue,
+            
+            decoration: InputDecoration(
+              prefixIcon: IconWithBackground(iconData: IconlyBold.location),
+              hintText: 'Location'
+            ),
+            
+            onChanged: (salutation){
+                removeError(error: kLocationNullError);
+                setState(() => selectedSalutation = salutation);
+                
+                return null;
+            },
+            validator: (value){
+              if (value == null) {
+          addError(error: kLocationNullError);
+          return "";
+        }
+        return null;
+            },
+            items:
+                items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          );
+  }
+
 }

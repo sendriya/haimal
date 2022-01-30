@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:haimal/components/custom_surfix_icon.dart';
 import 'package:haimal/components/default_button.dart';
 import 'package:haimal/components/form_error.dart';
@@ -6,6 +7,7 @@ import 'package:haimal/screens/complete_profile/complete_profile_screen.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import '../../../components/icon_with_background.dart';
 
 
 class SignUpForm extends StatefulWidget {
@@ -16,6 +18,7 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
   String? email;
+  String? phoneNumber;
   String? password;
   String? conform_password;
   bool remember = false;
@@ -43,9 +46,12 @@ class _SignUpFormState extends State<SignUpForm> {
         children: [
           buildEmailFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
+          buildPhoneNumberFormField(),
+          SizedBox(height: getProportionateScreenHeight(30)),
           buildPasswordFormField(),
           SizedBox(height: getProportionateScreenHeight(30)),
           buildConformPassFormField(),
+          SizedBox(height: getProportionateScreenHeight(20)),
           FormError(errors: errors),
           SizedBox(height: getProportionateScreenHeight(40)),
           DefaultButton(
@@ -86,12 +92,9 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
+        prefixIcon: IconWithBackground(iconData: IconlyBold.lock),
         labelText: "Confirm Password",
         hintText: "Re-enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
@@ -119,12 +122,9 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
+        prefixIcon: IconWithBackground(iconData: IconlyBold.lock),
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
@@ -152,12 +152,34 @@ class _SignUpFormState extends State<SignUpForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email",
-        hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+                prefixIcon: IconWithBackground(iconData: IconlyBold.message),
+                labelText: 'Email',
+                hintText: 'you@email.com',
+              ),
+    );
+  }
+
+    TextFormField buildPhoneNumberFormField() {
+    return TextFormField(
+      keyboardType: TextInputType.phone,
+      onSaved: (newValue) => phoneNumber = newValue,
+      onChanged: (value) {
+        if (value.isNotEmpty) {
+          removeError(error: kPhoneNumberNullError);
+        }
+        return null;
+      },
+      validator: (value) {
+        if (value!.isEmpty) {
+          addError(error: kPhoneNumberNullError);
+          return "";
+        }
+        return null;
+      },
+      decoration: InputDecoration(
+        prefixIcon: IconWithBackground(iconData: IconlyBold.call),
+        labelText: "Phone Number",
+        hintText: "Enter your phone number",
       ),
     );
   }
