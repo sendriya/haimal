@@ -5,6 +5,8 @@ import '../../../size_config.dart';
 import 'sign_form.dart';
 
 class Body extends StatelessWidget {
+  const Body({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,14 +27,14 @@ class Body extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
+                const Text(
                   "Sign in with your email \nor phonenumber and password  ",
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
                 SignForm(),
                 SizedBox(height: SizeConfig.screenHeight * 0.08),
-                NoAccountText(),
+                const NoAccountText(),
                 SizedBox(height: getProportionateScreenHeight(20)),
               ],
             ),

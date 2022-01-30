@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haimal/screens/sign_in/sign_in_screen.dart';
 
 import '../../../size_config.dart';
 
@@ -21,6 +22,38 @@ class SplashContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Align(
+          alignment: Alignment.topRight,
+          child: FlatButton(
+              padding: EdgeInsets.fromLTRB(0, 30, 30, 0),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SignInScreen(),
+                  ),
+                );
+              },
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: const TextSpan(children: <TextSpan>[
+                  TextSpan(
+                    text: "Skip",
+                    style: TextStyle(
+                      fontSize: (17),
+                      color: Color(0xFFF67952),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  TextSpan(
+                      text: " >>>",
+                      style: TextStyle(
+                          fontSize: (16),
+                          color: Color(0xFF757575),
+                          fontWeight: FontWeight.bold)),
+                ]),
+              )),
+        ),
         const Spacer(),
         Text(
           headingText,
