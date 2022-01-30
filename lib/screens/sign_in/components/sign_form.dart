@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:haimal/components/custom_surfix_icon.dart';
 import 'package:haimal/components/form_error.dart';
+import 'package:haimal/components/icon_with_background.dart';
 import 'package:haimal/helper/keyboard.dart';
 import 'package:haimal/screens/forgot_password/forgot_password_screen.dart';
 import 'package:haimal/screens/login_success/login_success_screen.dart';
@@ -109,12 +111,9 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
+        prefixIcon: IconWithBackground(iconData: IconlyBold.lock),
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
@@ -142,12 +141,9 @@ class _SignFormState extends State<SignForm> {
         return null;
       },
       decoration: InputDecoration(
-        labelText: "Email",
+        labelText: "Email or Phonenumber",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        prefixIcon: IconWithBackground(iconData: IconlyBold.profile),
       ),
     );
   }
