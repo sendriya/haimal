@@ -1,14 +1,21 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:haimal/components/custom_surfix_icon.dart';
 import 'package:haimal/components/default_button.dart';
 import 'package:haimal/components/form_error.dart';
 import 'package:haimal/screens/complete_profile/complete_profile_screen.dart';
+import 'package:haimal/screens/otp/otp_screen.dart';
+import 'package:haimal/server.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
 import '../../../components/icon_with_background.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -24,18 +31,69 @@ class _SignUpFormState extends State<SignUpForm> {
   bool remember = false;
   final List<String?> errors = [];
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   void addError({String? error}) {
     if (!errors.contains(error))
+      // ignore: curly_braces_in_flow_control_structures
       setState(() {
         errors.add(error);
       });
   }
 
   void removeError({String? error}) {
-    if (errors.contains(error))
+    if (errors.contains(error)) {
       setState(() {
         errors.remove(error);
       });
+    }
+  }
+
+  signUp(String email, password, mobile) async {
+    Loader.show(context,
+        isSafeAreaOverlay: false,
+        isAppbarOverlay: true,
+        isBottomBarOverlay: true,
+        progressIndicator: const CupertinoActivityIndicator(radius: 15),
+        themeData: Theme.of(context).copyWith(
+            colorScheme:
+                ColorScheme.fromSwatch().copyWith(secondary: Colors.black38)),
+        overlayColor: const Color(0x99E8EAF6));
+    String url = '$server/api/auth/users/register_user/';
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {'email': email, 'password': password, 'mobile': mobile};
+    var response = await http.post(Uri.parse(url), body: data);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      if (jsonResponse != null) {
+        sharedPreferences.setString("token", jsonResponse['token']);
+        Loader.hide();
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (BuildContext context) => OtpScreen()),
+            (Route<dynamic> route) => false);
+      }
+    } else {
+      Loader.hide();
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CupertinoAlertDialog(
+              title: const Text('Error'),
+              content: Text(json.decode(response.body)['detail']),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          });
+    }
   }
 
   @override
@@ -60,7 +118,9 @@ class _SignUpFormState extends State<SignUpForm> {
               if (_formKey.currentState!.validate()) {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
-                Navigator.pushNamed(context, CompleteProfileScreen.routeName);
+                // Navigator.pushNamed(context, OtpScreen.routeName);
+                signUp(emailController.text, passwordController.text,
+                    phoneController.text);
               }
             },
           ),
@@ -91,7 +151,7 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         prefixIcon: IconWithBackground(iconData: IconlyBold.lock),
         labelText: "Confirm Password",
         hintText: "Re-enter your password",
@@ -101,6 +161,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: passwordController,
       obscureText: true,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
@@ -121,7 +182,7 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         prefixIcon: IconWithBackground(iconData: IconlyBold.lock),
         labelText: "Password",
         hintText: "Enter your password",
@@ -131,6 +192,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
@@ -151,16 +213,17 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      decoration: InputDecoration(
-                prefixIcon: IconWithBackground(iconData: IconlyBold.message),
-                labelText: 'Email',
-                hintText: 'you@email.com',
-              ),
+      decoration: const InputDecoration(
+        prefixIcon: IconWithBackground(iconData: IconlyBold.message),
+        labelText: 'Email',
+        hintText: 'you@email.com',
+      ),
     );
   }
 
-    TextFormField buildPhoneNumberFormField() {
+  TextFormField buildPhoneNumberFormField() {
     return TextFormField(
+      controller: phoneController,
       keyboardType: TextInputType.phone,
       onSaved: (newValue) => phoneNumber = newValue,
       onChanged: (value) {
@@ -176,7 +239,7 @@ class _SignUpFormState extends State<SignUpForm> {
         }
         return null;
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         prefixIcon: IconWithBackground(iconData: IconlyBold.call),
         labelText: "Phone Number",
         hintText: "Enter your phone number",
