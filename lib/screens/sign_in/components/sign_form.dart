@@ -1,13 +1,22 @@
+import 'dart:convert';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:haimal/components/custom_surfix_icon.dart';
 import 'package:haimal/components/form_error.dart';
+import 'package:haimal/components/icon_with_background.dart';
 import 'package:haimal/helper/keyboard.dart';
 import 'package:haimal/screens/forgot_password/forgot_password_screen.dart';
 import 'package:haimal/screens/login_success/login_success_screen.dart';
+import 'package:haimal/server.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../components/default_button.dart';
 import '../../../constants.dart';
 import '../../../size_config.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_overlay_loader/flutter_overlay_loader.dart';
 
 class SignForm extends StatefulWidget {
   @override
@@ -21,18 +30,68 @@ class _SignFormState extends State<SignForm> {
   bool? remember = false;
   final List<String?> errors = [];
 
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  signIn(String email, password) async {
+    Loader.show(context,
+        isSafeAreaOverlay: false,
+        isAppbarOverlay: true,
+        isBottomBarOverlay: true,
+        progressIndicator: const CupertinoActivityIndicator(radius: 15),
+        themeData: Theme.of(context).copyWith(
+            colorScheme:
+                ColorScheme.fromSwatch().copyWith(secondary: Colors.black38)),
+        overlayColor: const Color(0x99E8EAF6));
+    String url = '$server/api/auth/login/';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    Map data = {
+      'email': email,
+      'password': password,
+    };
+    var response = await http.post(Uri.parse(url), body: data);
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      if (jsonResponse != null) {
+        prefs.setString('token', jsonResponse['token']);
+        Loader.hide();
+        Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+      }
+    } else {
+      Loader.hide();
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CupertinoAlertDialog(
+              title: const Text('Error'),
+              content: const Text('Invalid email or password, please retry'),
+              actions: <Widget>[
+                CupertinoDialogAction(
+                  child: const Text('Ok'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          });
+    }
+  }
+
   void addError({String? error}) {
-    if (!errors.contains(error))
+    if (!errors.contains(error)) {
       setState(() {
         errors.add(error);
       });
+    }
   }
 
   void removeError({String? error}) {
-    if (errors.contains(error))
+    if (errors.contains(error)) {
       setState(() {
         errors.remove(error);
       });
+    }
   }
 
   @override
@@ -56,12 +115,12 @@ class _SignFormState extends State<SignForm> {
                   });
                 },
               ),
-              Text("Remember me"),
-              Spacer(),
+              const Text("Remember me"),
+              const Spacer(),
               GestureDetector(
                 onTap: () => Navigator.pushNamed(
                     context, ForgotPasswordScreen.routeName),
-                child: Text(
+                child: const Text(
                   "Forgot Password",
                   style: TextStyle(decoration: TextDecoration.underline),
                 ),
@@ -77,7 +136,8 @@ class _SignFormState extends State<SignForm> {
                 _formKey.currentState!.save();
                 // if all are valid then go to success screen
                 KeyboardUtil.hideKeyboard(context);
-                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+                signIn(emailController.text, passwordController.text);
+                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
               }
             },
           ),
@@ -88,6 +148,7 @@ class _SignFormState extends State<SignForm> {
 
   TextFormField buildPasswordFormField() {
     return TextFormField(
+      controller: passwordController,
       obscureText: true,
       onSaved: (newValue) => password = newValue,
       onChanged: (value) {
@@ -108,19 +169,17 @@ class _SignFormState extends State<SignForm> {
         }
         return null;
       },
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
+        prefixIcon: const IconWithBackground(iconData: IconlyBold.lock),
         labelText: "Password",
         hintText: "Enter your password",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Lock.svg"),
       ),
     );
   }
 
   TextFormField buildEmailFormField() {
     return TextFormField(
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       onSaved: (newValue) => email = newValue,
       onChanged: (value) {
@@ -141,13 +200,10 @@ class _SignFormState extends State<SignForm> {
         }
         return null;
       },
-      decoration: InputDecoration(
-        labelText: "Email",
+      decoration: const InputDecoration(
+        labelText: "Email or Phonenumber",
         hintText: "Enter your email",
-        // If  you are using latest version of flutter then lable text and hint text shown like this
-        // if you r using flutter less then 1.20.* then maybe this is not working properly
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        suffixIcon: CustomSurffixIcon(svgIcon: "assets/icons/Mail.svg"),
+        prefixIcon: IconWithBackground(iconData: IconlyBold.profile),
       ),
     );
   }

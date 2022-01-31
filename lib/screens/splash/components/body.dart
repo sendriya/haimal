@@ -28,6 +28,7 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: avoid_unnecessary_containers
     return Container(
       child: FutureBuilder<List<OnBoarding>>(
           future: futureData,
