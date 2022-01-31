@@ -9,7 +9,7 @@ import 'package:haimal/components/custom_surfix_icon.dart';
 import 'package:haimal/components/default_button.dart';
 import 'package:haimal/components/form_error.dart';
 import 'package:haimal/components/icon_with_background.dart';
-import 'package:haimal/screens/home/home_screen.dart';
+import 'package:haimal/screens/home/home_page.dart';
 import 'package:haimal/screens/otp/otp_screen.dart';
 import 'package:haimal/server.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -93,7 +93,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
       var jsonResponse = json.decode(response.body);
       if (jsonResponse != null) {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (BuildContext context) => HomeScreen()),
+            MaterialPageRoute(builder: (BuildContext context) => const HomePage()),
             (Route<dynamic> route) => false);
       }
     } else {

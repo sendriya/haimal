@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:haimal/screens/home/home_screen.dart';
-import 'package:haimal/screens/profile/profile_screen.dart';
+import 'package:haimal/screens/home/home_page.dart';
+import 'package:haimal/screens/profile/profile_page.dart';
 
 import '../constants.dart';
 import '../enums.dart';
@@ -46,7 +46,7 @@ class CustomBottomNavBar extends StatelessWidget {
                       : inActiveIconColor,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, HomeScreen.routeName),
+                    Navigator.pushNamed(context, HomePage.routeName),
               ),
               IconButton(
                 icon: SvgPicture.asset("assets/icons/Heart Icon.svg"),
@@ -64,7 +64,7 @@ class CustomBottomNavBar extends StatelessWidget {
                       : inActiveIconColor,
                 ),
                 onPressed: () =>
-                    Navigator.pushNamed(context, ProfileScreen.routeName),
+                    Navigator.pushNamed(context, ProfilePage.routeName),
               ),
             ],
           )),

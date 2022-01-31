@@ -1,15 +1,16 @@
 
 
 import 'package:flutter/widgets.dart';
+import 'package:haimal/screens/approot/app_root.dart';
 import 'package:haimal/screens/cart/cart_screen.dart';
 import 'package:haimal/screens/complete_profile/complete_profile_screen.dart';
 import 'package:haimal/screens/details/details_screen.dart';
 import 'package:haimal/screens/forgot_password/forgot_password_screen.dart';
-import 'package:haimal/screens/home/home_screen.dart';
 import 'package:haimal/screens/login_success/login_success_screen.dart';
+import 'package:haimal/screens/home/home_page.dart';
 import 'package:haimal/screens/onboarding/onboarding_page.dart';
 import 'package:haimal/screens/otp/otp_screen.dart';
-import 'package:haimal/screens/profile/profile_screen.dart';
+import 'package:haimal/screens/profile/profile_page.dart';
 import 'package:haimal/screens/sign_in/sign_in_screen.dart';
 import 'package:haimal/screens/splash/splash_screen.dart';
 
@@ -26,8 +27,9 @@ final Map<String, WidgetBuilder> routes = {
   SignUpScreen.routeName: (context) => SignUpScreen(),
   CompleteProfileScreen.routeName: (context) => CompleteProfileScreen(),
   OtpScreen.routeName: (context) => OtpScreen(),
-  HomeScreen.routeName: (context) => HomeScreen(),
   DetailsScreen.routeName: (context) => DetailsScreen(),
   CartScreen.routeName: (context) => CartScreen(),
-  ProfileScreen.routeName: (context) => ProfileScreen(),
+  ProfilePage.routeName: (context) => ProfilePage(),
+  HomePage.routeName: (context) => HomePage(),
+  AppRoot.routeName: (context) => AppRoot(),
 };

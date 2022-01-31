@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haimal/components/default_button.dart';
-import 'package:haimal/screens/home/home_screen.dart';
+import 'package:haimal/screens/approot/app_root.dart';
 import 'package:haimal/size_config.dart';
 
 class Body extends StatelessWidget {
@@ -28,7 +28,7 @@ class Body extends StatelessWidget {
           child: DefaultButton(
             text: "Back to home",
             press: () {
-              Navigator.pushNamed(context, HomeScreen.routeName);
+              Navigator.pushNamed(context, AppRoot.routeName);
             },
           ),
         ),

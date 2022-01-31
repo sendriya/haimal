@@ -1,35 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:haimal/screens/cart/cart_screen.dart';
-
-import '../../../size_config.dart';
-import 'icon_btn_with_counter.dart';
-import 'search_field.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     Key? key,
+    this.backButton,
   }) : super(key: key);
+
+  final Widget? backButton;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return AppBar(
+      leading: backButton,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SearchField(),
-          IconBtnWithCounter(
-            svgSrc: "assets/icons/Cart Icon.svg",
-            press: () => Navigator.pushNamed(context, CartScreen.routeName),
-          ),
-          IconBtnWithCounter(
-            svgSrc: "assets/icons/Bell.svg",
-            numOfitem: 3,
-            press: () {},
+          const Icon(IconlyLight.location),
+          const SizedBox(width: 10),
+          Text(
+            '15/2 New Texas',
+            style: Theme.of(context).textTheme.bodyText2,
           ),
         ],
       ),
+      actions: [
+        IconButton(
+          onPressed: () {},
+          icon: const Icon(
+            IconlyBold.notification,
+            color: Colors.grey,
+          ),
+        )
+      ],
     );
   }
 }
