@@ -21,6 +21,10 @@ dependencies:
   jwt_decoder: ^2.0.1
   http: ^0.13.3
   flutter_overlay_loader: ^1.0.3
+  flutter_credit_card: ^3.0.1
+  flutter_zoom_drawer: ^2.3.0
+  animations: ^2.0.2
+  
 
 dev_dependencies:
   flutter_test:

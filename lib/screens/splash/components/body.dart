@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haimal/api/OnBoardingAPI.dart';
 import 'package:haimal/models/OnBoarding.dart';
-import 'package:haimal/screens/home/home_screen.dart';
 import 'package:haimal/screens/sign_in/sign_in_screen.dart';
 import 'package:haimal/screens/splash/components/splash_content.dart';
 

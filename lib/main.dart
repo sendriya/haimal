@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haimal/routes.dart';
 import 'package:haimal/screens/onboarding/onboarding_page.dart';
-import 'package:haimal/screens/profile/profile_screen.dart';
 import 'package:haimal/screens/splash/splash_screen.dart';
 import 'package:haimal/theme.dart';
 
