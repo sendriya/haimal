@@ -49,3 +49,7 @@ OutlineInputBorder outlineInputBorder() {
     borderSide: const BorderSide(color: kTextColor),
   );
 }
+
+List<BoxShadow> shadowList = [
+  BoxShadow(color: Color(0xFFEEEEEE), blurRadius: 30, offset: Offset(0, 10))
+];

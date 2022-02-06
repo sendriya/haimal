@@ -1,92 +1,91 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:haimal/models/Product.dart';
-import 'package:haimal/screens/details/details_screen.dart';
 
-import '../constants.dart';
-import '../size_config.dart';
+import '../../../constants.dart';
+import '../../../size_config.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   const ProductCard({
     Key? key,
-    this.width = 140,
-    this.aspectRetio = 1.02,
-    required this.product,
+    this.width = 150,
+    this.aspectRation = 1.02,
+    required this.productName,
+    required this.image,
+    required this.price,
+    required this.description,
+    required this.quantity,
+    required this.quantityType,
+    required this.press,
+    required this.hasPlan,
   }) : super(key: key);
 
-  final double width, aspectRetio;
-  final Product product;
+  final double width, aspectRation;
+  final String productName, image, price, description, quantityType;
+  final int quantity;
+  final GestureTapCallback press;
+  final bool hasPlan;
 
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: getProportionateScreenWidth(20)),
-      child: SizedBox(
-        width: getProportionateScreenWidth(width),
-        child: GestureDetector(
-          onTap: () => Navigator.pushNamed(
-            context,
-            DetailsScreen.routeName,
-            arguments: ProductDetailsArguments(product: product),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      padding: EdgeInsets.all(getProportionateScreenWidth(10)),
+      child: GestureDetector(
+        onTap: widget.press,
+        child: SizedBox(
+          width: getProportionateScreenWidth(widget.width),
+          //height: getProportionateScreenHeight(300),
+          child: Container(
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: shadowList,
+                borderRadius: BorderRadius.circular(15)),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               AspectRatio(
-                aspectRatio: 1.02,
+                aspectRatio: widget.aspectRation,
                 child: Container(
-                  padding: EdgeInsets.all(getProportionateScreenWidth(20)),
                   decoration: BoxDecoration(
-                    color: kSecondaryColor.withOpacity(0.1),
+                    //color: kSecondaryColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(15),
                   ),
-                  child: Hero(
-                    tag: product.id.toString(),
-                    child: Image.asset(product.images[0]),
-                  ),
+                  child: Image.network(widget.image),
                 ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(
+                height: getProportionateScreenHeight(5),
+              ),
               Text(
-                product.title,
-                style: TextStyle(color: Colors.black),
+                widget.productName,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(16)),
                 maxLines: 2,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "\$${product.price}",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(18),
-                      fontWeight: FontWeight.w600,
-                      color: kPrimaryColor,
-                    ),
-                  ),
-                  InkWell(
-                    borderRadius: BorderRadius.circular(50),
-                    onTap: () {},
-                    child: Container(
-                      padding: EdgeInsets.all(getProportionateScreenWidth(8)),
-                      height: getProportionateScreenWidth(28),
-                      width: getProportionateScreenWidth(28),
-                      decoration: BoxDecoration(
-                        color: product.isFavourite
-                            ? kPrimaryColor.withOpacity(0.15)
-                            : kSecondaryColor.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: SvgPicture.asset(
-                        "assets/icons/Heart Icon_2.svg",
-                        color: product.isFavourite
-                            ? Color(0xFFFF4848)
-                            : Color(0xFFDBDEE4),
-                      ),
-                    ),
-                  ),
-                ],
+              SizedBox(
+                height: getProportionateScreenHeight(5),
+              ),
+              Text(
+                "${widget.quantity} ${widget.quantityType}",
+                style: TextStyle(
+                    fontSize: getProportionateScreenWidth(12),
+                    fontWeight: FontWeight.w400),
+              ),
+              SizedBox(
+                height: getProportionateScreenHeight(5),
+              ),
+              Text(
+                "₹${widget.price}",
+                style: TextStyle(
+                    color: kPrimaryColor,
+                    fontSize: getProportionateScreenWidth(16),
+                    fontWeight: FontWeight.w600),
               )
-            ],
+            ]),
           ),
         ),
       ),

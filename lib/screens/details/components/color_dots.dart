@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haimal/components/rounded_icon_btn.dart';
 import 'package:haimal/models/Product.dart';
+import 'package:haimal/models/Products.dart';
 
 import '../../../constants.dart';
 import '../../../size_config.dart';
@@ -11,7 +12,7 @@ class ColorDots extends StatelessWidget {
     required this.product,
   }) : super(key: key);
 
-  final Product product;
+  final Products product;
 
   @override
   Widget build(BuildContext context) {
@@ -22,13 +23,13 @@ class ColorDots extends StatelessWidget {
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         children: [
-          ...List.generate(
-            product.colors.length,
-            (index) => ColorDot(
-              color: product.colors[index],
-              isSelected: index == selectedColor,
-            ),
-          ),
+          // ...List.generate(
+          //   product.colors.length,
+          //   (index) => ColorDot(
+          //     color: product.colors[index],
+          //     isSelected: index == selectedColor,
+          //   ),
+          // ),
           Spacer(),
           RoundedIconBtn(
             icon: Icons.remove,

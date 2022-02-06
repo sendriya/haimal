@@ -11,7 +11,7 @@ import 'components/home_new_arrival_section.dart';
 import 'components/search_bar.dart';
 
 class HomePage extends StatelessWidget {
-static String routeName = "/newhome";
+  static String routeName = "/newhome";
   const HomePage({
     Key? key,
     this.backButton,
@@ -33,7 +33,7 @@ static String routeName = "/newhome";
             const SizedBox(height: AppDefaults.margin / 2),
             const SearchBar(),
             const SizedBox(height: AppDefaults.margin / 2),
-             Categories(),
+            Categories(),
             const SizedBox(height: AppDefaults.margin / 2),
             SpecialOffers(),
             SizedBox(height: getProportionateScreenWidth(30)),

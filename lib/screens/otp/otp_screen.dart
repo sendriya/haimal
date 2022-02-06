@@ -3,8 +3,16 @@ import 'package:haimal/size_config.dart';
 
 import 'components/body.dart';
 
-class OtpScreen extends StatelessWidget {
+class OtpScreen extends StatefulWidget {
   static String routeName = "/otp";
+
+  const OtpScreen({Key? key}) : super(key: key);
+
+  @override
+  State<OtpScreen> createState() => _OtpScreenState();
+}
+
+class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

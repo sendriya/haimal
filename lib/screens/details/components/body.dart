@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haimal/components/default_button.dart';
-import 'package:haimal/models/Product.dart';
+import 'package:haimal/models/Products.dart';
 import 'package:haimal/size_config.dart';
 
 import 'color_dots.dart';
@@ -9,7 +9,7 @@ import 'top_rounded_container.dart';
 import 'product_images.dart';
 
 class Body extends StatelessWidget {
-  final Product product;
+  final Products product;
 
   const Body({Key? key, required this.product}) : super(key: key);
 
@@ -17,7 +17,6 @@ class Body extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        ProductImages(product: product),
         TopRoundedContainer(
           color: Colors.white,
           child: Column(

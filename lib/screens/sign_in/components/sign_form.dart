@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:haimal/components/custom_surfix_icon.dart';
@@ -132,12 +133,15 @@ class _SignFormState extends State<SignForm> {
           DefaultButton(
             text: "Continue",
             press: () {
-              if (_formKey.currentState!.validate()) {
-                _formKey.currentState!.save();
-                // if all are valid then go to success screen
-                KeyboardUtil.hideKeyboard(context);
-                signIn(emailController.text, passwordController.text);
-                // Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+              if (kDebugMode) {
+                Navigator.pushNamed(context, LoginSuccessScreen.routeName);
+              } else {
+                if (_formKey.currentState!.validate()) {
+                  _formKey.currentState!.save();
+                  // if all are valid then go to success screen
+                  KeyboardUtil.hideKeyboard(context);
+                  signIn(emailController.text, passwordController.text);
+                }
               }
             },
           ),

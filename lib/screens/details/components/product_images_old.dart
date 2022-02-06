@@ -4,8 +4,8 @@ import 'package:haimal/size_config.dart';
 
 import '../../../constants.dart';
 
-class ProductImages extends StatefulWidget {
-  const ProductImages({
+class ProductImagesOld extends StatefulWidget {
+  const ProductImagesOld({
     Key? key,
     required this.arguments,
   }) : super(key: key);
@@ -13,10 +13,10 @@ class ProductImages extends StatefulWidget {
   final ProductDetailsArguments arguments;
 
   @override
-  _ProductImagesState createState() => _ProductImagesState();
+  _ProductImagesOldState createState() => _ProductImagesOldState();
 }
 
-class _ProductImagesState extends State<ProductImages> {
+class _ProductImagesOldState extends State<ProductImagesOld> {
   int selectedImage = 0;
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,6 @@ class _ProductImagesState extends State<ProductImages> {
     );
   }
 
-  // ignore: non_constant_identifier_names
   GestureDetector ImagePreview(int index) {
     return GestureDetector(
       onTap: () {

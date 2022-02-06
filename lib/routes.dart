@@ -1,11 +1,10 @@
-
-
 import 'package:flutter/widgets.dart';
 import 'package:haimal/screens/approot/app_root.dart';
 import 'package:haimal/screens/cart/cart_screen.dart';
 import 'package:haimal/screens/complete_profile/complete_profile_screen.dart';
 import 'package:haimal/screens/details/details_screen.dart';
 import 'package:haimal/screens/forgot_password/forgot_password_screen.dart';
+import 'package:haimal/screens/home/components/product_detail_screen.dart';
 import 'package:haimal/screens/login_success/login_success_screen.dart';
 import 'package:haimal/screens/home/home_page.dart';
 import 'package:haimal/screens/onboarding/onboarding_page.dart';
@@ -32,4 +31,5 @@ final Map<String, WidgetBuilder> routes = {
   ProfilePage.routeName: (context) => ProfilePage(),
   HomePage.routeName: (context) => HomePage(),
   AppRoot.routeName: (context) => AppRoot(),
+  ProductDetailsScreen.routeName: (context) => ProductDetailsScreen(),
 };
